@@ -1,5 +1,3 @@
-import java.io.ByteArrayOutputStream
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -14,8 +12,8 @@ android {
         applicationId = "com.ourcity.claritycicd"
         minSdk = 24
         targetSdk = 34
-        versionCode = (findProperty("versionCode") as String).toInt()
-        versionName = findProperty("versionName") as String
+        versionCode = 1
+        versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -40,23 +38,6 @@ android {
     }
 }
 
-fun getVersionCode(): Int {
-    val stdout = ByteArrayOutputStream()
-    exec {
-        commandLine = listOf("git", "rev-list", "--count", "HEAD")
-        standardOutput = stdout
-    }
-    return stdout.toString().trim().toInt()
-}
-
-fun getVersionName(): String {
-    val stdout = ByteArrayOutputStream()
-    exec {
-        commandLine = listOf("git", "describe", "--tags", "--abbrev=0")
-        standardOutput = stdout
-    }
-    return stdout.toString().trim()
-}
 dependencies {
 
     implementation(libs.androidx.core.ktx)
