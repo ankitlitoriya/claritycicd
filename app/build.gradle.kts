@@ -1,7 +1,25 @@
+import java.util.Properties
+val versionProps = getVersionProperties()
+// Define a method to read properties from version.properties
+fun getVersionProperties(): Properties {
+    val versionPropsFile = file("version.properties")
+    if (versionPropsFile.canRead()) {
+        val versionProps = Properties()
+        versionProps.load(versionPropsFile.inputStream())
+        return versionProps
+    } else {
+        throw GradleException("Could not read version.properties!")
+    }
+}
+
+// Get the version properties
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    kotlin("kapt")
 }
 
 android {
@@ -12,8 +30,8 @@ android {
         applicationId = "com.ourcity.claritycicd"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionName = versionProps["versionName"] as String
+        versionCode = (versionProps["versionCode"] as String).toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -39,7 +57,12 @@ android {
 }
 
 dependencies {
+    implementation(libs.kotlin.stdlib)
 
+    // Test dependencies
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
