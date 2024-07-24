@@ -2,7 +2,7 @@ import java.util.Properties
 val versionProps = getVersionProperties()
 // Define a method to read properties from version.properties
 fun getVersionProperties(): Properties {
-    val versionPropsFile = file("version.properties")
+    val versionPropsFile = file("/app/version.properties")
     if (versionPropsFile.canRead()) {
         val versionProps = Properties()
         versionProps.load(versionPropsFile.inputStream())
